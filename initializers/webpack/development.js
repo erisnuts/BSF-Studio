@@ -8,6 +8,8 @@ module.exports = merge(client, {
   mode: 'development',
 
   devServer: {
+    host: '0.0.0.0',
+    disableHostCheck: true,
     contentBase: path.join(process.cwd(), 'public'),
     historyApiFallback: {
       rewrites: [

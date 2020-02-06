@@ -40,7 +40,7 @@ tag-version:
 
 ## Run container with params configured in `config.env`
 run:
-	docker run -i -t --rm --env-file=./config.env -p 80:3000 --name="$(APP_NAME)" $(APP_NAME)
+	docker run -i -t --rm --env-file=./config.env -p 80:8080 --name="$(APP_NAME)" $(APP_NAME)
 
 ## Output the current version
 version:

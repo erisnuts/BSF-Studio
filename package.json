@@ -1,17 +1,16 @@
 {
   "name": "bsf_client",
-  "version": "1.0.0",
+  "version": "1.0.5",
   "main": "index.js",
   "repository": "https://github.com/erisnuts/bsf_client",
   "author": "erisnuts <eris909@mail.ru>",
   "license": "MIT",
   "scripts": {
     "deploy": "pm2 deploy pm2.config.js production",
-    "build:server": "npm build && webpack --config ./initializers/webpack/server.js && rm -rf public/index.html",
+    "build:server": "yarn build && webpack --config ./initializers/webpack/server.js && rm -rf public/index.html",
     "build": "webpack --config=initializers/webpack/production.js",
     "cleanup": "rm -rf ./build ./public/assets",
-    "start:dev": "webpack-dev-server --config=initializers/webpack/development.js",
-    "start": "node ./build/server.js"
+    "start": "webpack-dev-server --config=initializers/webpack/development.js"
   },
   "dependencies": {
     "ejs": "^2.6.1",

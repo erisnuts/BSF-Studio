@@ -49,7 +49,6 @@ const generateAttachments = ({
 export function compile (files) {
   return {
     [API_CALL]: {
-      //root: 'http://localhost:80',
       root: 'http://35.242.215.153:3000',
       endpoint: '/compile',
       method: 'POST',

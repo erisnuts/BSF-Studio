@@ -1,76 +1,46 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: bsf_client-ru
+  name: bsf-client
+  namespace: client
   labels:
-    app: bsf_client-ru
-    environment: staging
+    app:  bsf
+    role: client
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: bsf_client-ru
+      app:  bsf
+      role: client
   template:
     metadata:
       labels:
-        app: bsf_client-ru
-        environment: staging
+        app:  bsf
+        role: client
     spec:
       containers:
-      - name: bsf_client-ru
-        image: eu.gcr.io/teak-sunup-126712/bsf_client/bsf_client-ru:{{VERSION}}
+      - name: app
+        image: eu.gcr.io/bsf-studio/bsf-client:{{VERSION}}
         imagePullPolicy: Always
         ports:
-        - containerPort: 80
-        livenessProbe:
-          httpGet:
-            path: /
-            port: 80
-          initialDelaySeconds: 3
-          periodSeconds: 3
-        readinessProbe:
-          httpGet:
-            path: /
-            port: 80
-          initialDelaySeconds: 3
-          periodSeconds: 3
-      imagePullSecrets:
-      - name: gcr-json-key
+          - containerPort: 8080
+        env:
+          - name:  PORT
+            value: '8080'
+
 ---
+
 kind: Service
 apiVersion: v1
 metadata:
-  name: bsf_client-ru
-  labels:
-    app: bsf_client-ru
-    environment: staging
+  name: bsf-client
+  namespace: client
 spec:
+  type: LoadBalancer
   selector:
-    app: bsf_client-ru
+    app:  bsf
+    role: client
   ports:
-  - protocol: TCP
-    port: 80
-    targetPort: 80
----
-apiVersion: extensions/v1beta1
-kind: Ingress
-metadata:
-  name: bsf_client-ru
-  labels:
-    app: bsf_client-ru
-    environment: staging
-  annotations:
-    certmanager.k8s.io/cluster-issuer: letsencrypt-prod
-spec:
-  tls:
-    - hosts:
-      - staging.bsf_client.ru
-      secretName: bsf_client-ru-staging-crt
-  rules:
-  - host: staging.bsf_client.ru
-    http:
-      paths:
-      - path: /
-        backend:
-          serviceName: bsf_client-ru
-          servicePort: 80
+    - protocol: TCP
+      port: 80
+      targetPort: 8080
